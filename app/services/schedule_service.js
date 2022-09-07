@@ -1,35 +1,29 @@
 
 const randomUUID = require('../helper/crypto')
+const constants = require('../helper/constants')
+
 const db = require("../models");
 const Schedule = db.schedule;
 
 
-exports.create = (req, res) => {
+async function main(req) {
    
-    const schedule = new Schedule({
+    var item = new Schedule({
       uuid: randomUUID(),
-      associeate_uuid: req.body.associeate_uuid,
-      provider_uuid: req.body.provider_uuid,
-      partner_uuid: req.body.partner_uuid,
-      description: req.body.description,
-      scheduled_date: req.body.scheduled_date,
-      scheduled_time: req.body.scheduled_time,
-      status: Boolean,
-      create_at: String,
-      title: req.body.title,
-      description: req.body.description,
-      published: req.body.published ? req.body.published : false
+      associeate_uuid: req.body.associeateUuid,
+      provider_uuid: req.body.providerUuid,
+      partner_uuid: req.body.partnerUuid,
+      note: req.body.note,
+      scheduled_date: req.body.scheduledDate,
+      scheduled_time: req.body.scheduledTime,
+      status: constants.STATUS.ACTIVE,
+      create_at: new Date()
     });
-   
-    srevice
-      .save(schedule)
-      .then(data => {
-        res.send(data);
-      })
-      .catch(err => {
-        res.status(500).send({
-          message:
-            err.message || "Some error occurred while creating the Tutorial."
-        });
-      });
+
+    await item.save();  
+
+    return item
+
   };
+
+  module.export=main
