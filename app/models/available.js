@@ -3,11 +3,14 @@ module.exports = mongoose => {
   var schema = mongoose.Schema(
     {
       uuid: String,
-      collaborator_uuid: String,
+      provider_uuid: String,
+      schedule_uuid: String,
       scheduled_date: String,
       scheduled_time: String,
-      status: Boolean,
+      available: Boolean, 
       create_at: String,
+      create_at: String,
+      user: String,
     },
     { timestamps: true }
   );
@@ -18,5 +21,5 @@ module.exports = mongoose => {
     return object;
   });
  
-  return mongoose.model("calendar", schema);
+  return mongoose.model("available", schema);
 };
