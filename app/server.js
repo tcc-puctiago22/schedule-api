@@ -1,7 +1,16 @@
 require("dotenv").config({ path: '././.env' })
 
 const express = require("express");
-const act = require('./config/actuator');
+const actuator = require('express-actuator');
+const options = {
+        basePath: '/management', // It will set /management/info instead of /info
+        infoGitMode: 'simple', // the amount of git information you want to expose, 'simple' or 'full',
+        infoBuildOptions: null, // extra information you want to expose in the build object. Requires an object.
+        infoDateFormat: null, // by default, git.commit.time will show as is defined in git.properties. If infoDateFormat is defined, moment will format git.commit.time. See https://momentjs.com/docs/#/displaying/format/.
+        customEndpoints: [] // array of custom endpoints
+};
+
+actuator(options);
 const cors = require("cors");
 
 const app = express();
@@ -10,7 +19,7 @@ var corsOptions = {
   origin: "http://localhost:8081"
 };
 
-app.use(act());
+app.use(actuator());
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -32,12 +41,13 @@ db.mongoose
   });
 
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to bezkoder application." });
+  res.json({ message: "Welcome API Schedule." });
 });
 
-require("./routes/routes")(app);
+require("./routes/v1/routes")(app);
 
-const PORT = process.env.NODE_DOCKER_PORT || 8081;
+const PORT = process.env.NODE_DOCKER_PORT || 3000;
+
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}.`);
-});
+  console.log(`API Schedule listening on port ${PORT}`)
+})

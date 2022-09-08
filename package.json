@@ -22,7 +22,12 @@
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "express-actuator": "^1.8.2",
+    "kafkajs": "^2.2.0",
     "mongoose": "^5.8.10",
+    "node-fetch": "^3.2.10",
     "simple-body-validator": "^1.2.2"
+  },
+  "devDependencies": {
+    "typescript": "^4.8.2"
   }
 }

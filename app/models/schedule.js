@@ -9,7 +9,7 @@ module.exports = mongoose => {
       description: String,
       scheduled_date: String,
       scheduled_time: String,
-      status: Boolean,
+      status: String,
       create_at: String,
     },
     { timestamps: true }

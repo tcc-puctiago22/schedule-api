@@ -3,6 +3,9 @@ const { validator_schedule } = require("../helper/body_validator");
 
 exports.create = (req, res) => {
 
+  console.log(`[POST] v1/schedule`);
+
+
   const retornValidate = validator_schedule(req.body)
 
   if (!retornValidate.errors()) {

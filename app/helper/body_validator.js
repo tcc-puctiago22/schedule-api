@@ -14,5 +14,5 @@ const rules_schedule ={
     
 }
 
-module.exports=validator_schedule
+module.exports= {validator_schedule}
   
