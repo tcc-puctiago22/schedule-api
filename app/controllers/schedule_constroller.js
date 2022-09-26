@@ -5,7 +5,6 @@ exports.create = (req, res) => {
 
   console.log(`[POST] v1/schedule`);
 
-
   const retornValidate = validator_schedule(req.body)
 
   if (!retornValidate.errors()) {
@@ -15,9 +14,9 @@ exports.create = (req, res) => {
   }
 
   service
-    .save(req.body)
+    .postSchedule(req.body)
     .then(data => {
-      res.send(data);
+      res.status(202).send(data);
     })
     .catch(err => {
       res.status(500).send({

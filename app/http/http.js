@@ -12,7 +12,7 @@ async function callApi(options) {
             res.on('data', d => {
                 data += d;
                let response={
-                statusCode:statusCode,
+                statusCode:res.statusCode,
                 data:data
                 }
                 resolve(response);

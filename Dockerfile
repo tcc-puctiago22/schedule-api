@@ -4,13 +4,13 @@ WORKDIR /app
 
 COPY package.json .
 
-##RUN npm install --quiet
+RUN npm install --quiet
 
-####RUN npm install nodemon -g --quiet
+RUN npm install nodemon -g --quiet
 
-##COPY . . 
+COPY . . 
 
-##EXPOSE 9000
+EXPOSE 9000
 
-##CMD nodemon -L --watch . app/server
+CMD nodemon -L --watch . app/server
 
