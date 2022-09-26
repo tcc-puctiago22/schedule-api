@@ -1,5 +1,5 @@
 
-const {produce} = require('../../kafka/producer')
+const produce = require('../../kafka/producer')
 const constants = require('../../helper/constants')
 const { getMessageAssociate, getMessageProvider} = require('../../helper/notification_helper')
 
@@ -16,8 +16,6 @@ async function produceSchedule(request) {
   let provider = await checkCallApi(returnOptions(`/customers/v1/providers/${request.providerUuid}`));  
   let partner = await checkCallApi(returnOptions(`/customers/v1/partner/${request.partnerUuid}`));   
   
-  console.log(associeate)
-
   let messageAssociate = getMessageAssociate(request, associeate, provider, partner)
   await publishNotification(messageAssociate);
   

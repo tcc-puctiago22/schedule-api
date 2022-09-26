@@ -2,16 +2,17 @@ const { Kafka } = require("kafkajs")
 
 const {
     KAFKA_CLIENTID,
-	KAFKA_BROKERS
+	KAFKA_BROKERS_HOST_1,
+	KAFKA_BROKERS_HOST_PORT_1
   } = process.env;
 
   
 const clientId = KAFKA_CLIENTID
-const brokers = KAFKA_BROKERS
-const kafka = new Kafka({ clientId, brokers })
+const kafka = new Kafka({ clientId, brokers: [KAFKA_BROKERS_HOST_1.concat(":").concat(KAFKA_BROKERS_HOST_PORT_1)]  })
 const producer = kafka.producer()
 
 const produce = async (topic, message) => {
+	console.log(`produce topic: ${topic}`)
 	await producer.connect()
 	
 		try {

@@ -7,11 +7,7 @@ const {
   } = process.env;
   
   function getMessageAssociate(request, associeate, provider, partner){
-    console.log('***********')
-
-    console.log(associeate.customer.emails)
-    console.log('***********')
-
+  
     return {
         from: NOTIFICATION_EMAIL_FROM, 
         to: associeate.customer.emails[0].email,  
@@ -22,7 +18,7 @@ const {
                <p> cidade ${request.city}</p>
                <p> UF ${request.uf}</p>
                <p> Doutor ${provider.customer.givenName}</p>
-               <p> Endereço: ${partner.addresses[0].postcode} ${request.addresses[0].streetName} ${request.addresses[0].streetNumber} ${request.addresses[0].district} </p>
+               <p> Endereço: ${partner.customer.addresses[0].postcode} ${partner.customer.addresses[0].streetName} ${partner.customer.addresses[0].streetNumber} ${partner.customer.addresses[0].district} </p>
                `
       }
 }
