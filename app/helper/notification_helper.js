@@ -34,7 +34,7 @@ function getMessageProvider(request, associeate, provider, partner){
              <p> cidade ${request.city}</p>
              <p> UF ${request.uf}</p>
              <p> cliente ${associeate.customer.givenName}</p>
-             <p> Endereço: ${partner.addresses[0].postcode} ${request.addresses[0].streetName} ${request.addresses[0].streetNumber} ${request.addresses[0].district} </p>
+             <p> Endereço: ${partner.customer.addresses[0].postcode} ${partner.customer.addresses[0].streetName} ${partner.customer.addresses[0].streetNumber} ${partner.customer.addresses[0].district} </p>
              `
     }
 }

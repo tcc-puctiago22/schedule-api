@@ -1,20 +1,11 @@
-const { Kafka } = require("kafkajs")
+const {kafka,KAFKA_CLIENTID,KAFKA_TOPIC_SCHEDULE} = require('./kafka_config')
 
-const {consumePostShcedule} = require('./consumer/schedule_producer')
+const {consumePostShcedule} = require('../services/consumer/schedule_consumer')
 
-
-const {
-    KAFKA_CLIENTID,
-	KAFKA_BROKERS,
-    KAFKA_TOPIC_SCHEDULE
-  } = process.env;
-
-  
-const kafka = new Kafka({ KAFKA_CLIENTID, KAFKA_BROKERS })
-const consumer = kafka.consumer({groupId:clientId})
+const consumer = kafka.consumer({groupId:KAFKA_CLIENTID})
 
 const consumerSchedule = async () => {
-
+    console.log('***consumerSchedule****')
     await consumer.connect()
 	await consumer.subscribe({ topic: KAFKA_TOPIC_SCHEDULE, fromBeginning: true })
 	await consumer.run({
@@ -24,13 +15,21 @@ const consumerSchedule = async () => {
             console.log({
                 key: message.key.toString(),
                 value: message.value.toString(),
-                headers: message.headers,
+                headers: message.headers.toString(),
             })
-
+            
             await consumePostShcedule(message)
-
         },
 	})
+
 }
 
-consumerSchedule()
+consumerSchedule().catch(async error => {
+    console.error(error)
+    try {
+      await consumer.disconnect()
+    } catch (e) {
+      console.error('Failed to gracefully disconnect consumer', e)
+    }
+    process.exit(1)
+  })

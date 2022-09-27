@@ -7,11 +7,11 @@ const db = require("../../models");
 const Schedule = db.schedule;
 
 async function consumePostShcedule(request) {
+
+  console.log(` ** init request **`)
    
-  let item = await save(request);  
-  
-  await publish(request);
-  
+  let item = await save(JSON.parse(request.value));  
+    
   return item;
 
   };
@@ -31,6 +31,8 @@ async function consumePostShcedule(request) {
       status: constants.STATUS.ACTIVE,
       create_at: request.createAt
     });
+
+console.log(`request >>>> ${item}`)
 
     await item.save(request);  
 

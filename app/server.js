@@ -1,4 +1,5 @@
 require("dotenv").config({ path: '././.env' })
+require('./kafka/consumer')
 
 const express = require("express");
 const actuator = require('express-actuator');
@@ -51,3 +52,4 @@ const PORT = process.env.NODE_DOCKER_PORT || 3000;
 app.listen(PORT, () => {
   console.log(`API Schedule listening on port ${PORT}`)
 })
+

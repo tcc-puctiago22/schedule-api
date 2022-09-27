@@ -6,8 +6,9 @@ const { getMessageAssociate, getMessageProvider} = require('../../helper/notific
 const {callApi} = require('../../http/http')
 
 const {
-  KAFKA_TOPIC_EMAIL,
-  KAFKA_TOPIC_SCHEDULE
+  KAFKA_TOPIC_NOTIFICATION,
+  KAFKA_TOPIC_SCHEDULE,
+  KAFKA_TOPIC_NOTIFICATION_KEY_EMAIL
 } = process.env;
 
 async function produceSchedule(request) {
@@ -18,13 +19,16 @@ async function produceSchedule(request) {
   
   let messageAssociate = getMessageAssociate(request, associeate, provider, partner)
   await publishNotification(messageAssociate);
+
   
   let messageProvider = getMessageProvider(request, associeate, provider, partner)
   
   await publishNotification(messageProvider);
+  console.log('******')
+
   await publishSchedule(request);
 
-  return item;
+  return request;
 
 }
 
@@ -54,15 +58,15 @@ async function checkCallApi(path){
 }
 
 async function publishNotification(message){
-  console.log(`produce ${KAFKA_TOPIC_EMAIL}`)
-  await produce(KAFKA_TOPIC_EMAIL, message)
+  console.log(`produce ${KAFKA_TOPIC_NOTIFICATION}`)
+  await produce(KAFKA_TOPIC_NOTIFICATION, KAFKA_TOPIC_NOTIFICATION_KEY_EMAIL , message)
 
 }
 
 async function publishSchedule(request) {
    
   let message = {
-       associeateUuid: request.associeateUuid,
+      associeateUuid: request.associeateUuid,
       providerUuid: request.providerUuid,
       partnerUuid: request.partnerUuid,
       occupational: request.occupational,
@@ -74,7 +78,7 @@ async function publishSchedule(request) {
       createAt: new Date()
     }
 
-  await produce(KAFKA_TOPIC_SCHEDULE, message)
+  await produce(KAFKA_TOPIC_SCHEDULE,'POST', message)
 
 };
 

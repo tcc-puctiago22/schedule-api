@@ -1,25 +1,25 @@
-const { Kafka } = require("kafkajs")
+const {randomUUID} = require('../helper/crypto')
+const {kafka} = require('./kafka_config')
 
-const {
-    KAFKA_CLIENTID,
-	KAFKA_BROKERS_HOST_1,
-	KAFKA_BROKERS_HOST_PORT_1
-  } = process.env;
-
-  
-const clientId = KAFKA_CLIENTID
-const kafka = new Kafka({ clientId, brokers: [KAFKA_BROKERS_HOST_1.concat(":").concat(KAFKA_BROKERS_HOST_PORT_1)]  })
 const producer = kafka.producer()
 
-const produce = async (topic, message) => {
+const produce = async (topic,key, message) => {
 	console.log(`produce topic: ${topic}`)
-	await producer.connect()
+	console.log(`produce topic key: ${key}`)
+
+		await producer.connect()
 	
 		try {
 			await producer.send({
-				topic,
+				topic: topic,
 				messages: [
-					message
+					{ 
+					key: key,
+					 value: JSON.stringify(message),
+					 headers: {
+						'id': randomUUID(),
+					  }
+					}
 				],
 			})
 			console.log(`message whrite: ${topic}`)
