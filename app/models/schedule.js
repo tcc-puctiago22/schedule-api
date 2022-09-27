@@ -3,11 +3,11 @@ module.exports = mongoose => {
   var schema = mongoose.Schema(
     {
       uuid: String,
-      associeate_uuid: String,
-      provider_uuid: String,
-      partner_uuid: String,
+      associeate: Object,
+      provider: Object,
+      partner: Object,
       description: String,
-      occupational:String,
+      occupational: String,
       city: String,
       uf: String,
       scheduled_date: String,
