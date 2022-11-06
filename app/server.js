@@ -1,6 +1,6 @@
 require("dotenv").config({ path: '././.env' })
 require('./kafka/consumer')
-
+var cors = require('cors')
 const express = require("express");
 const actuator = require('express-actuator');
 const options = {
@@ -12,7 +12,6 @@ const options = {
 };
 
 actuator(options);
-const cors = require("cors");
 
 const app = express();
 
@@ -21,7 +20,7 @@ var corsOptions = {
 };
 
 app.use(actuator());
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

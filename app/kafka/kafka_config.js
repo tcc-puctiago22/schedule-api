@@ -6,8 +6,7 @@ const {
     KAFKA_TOPIC_SCHEDULE
   } = process.env;
 
-  
-const kafka = new Kafka({ KAFKA_CLIENTID, brokers: [KAFKA_BROKERCONNECT]  })
+const kafka = new Kafka({clientId: KAFKA_CLIENTID, brokers: [KAFKA_BROKERCONNECT]  })
 
 module.exports={kafka,KAFKA_CLIENTID,KAFKA_TOPIC_SCHEDULE}
 
