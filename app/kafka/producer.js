@@ -3,12 +3,13 @@ const {kafka} = require('./kafka_config')
 
 const producer = kafka.producer()
 
+
 const produce = async (topic,key, message) => {
+
 	console.log(`produce topic: ${topic}`)
 	console.log(`produce topic key: ${key}`)
 
-		await producer.connect()
-	
+	await producer.connect()
 		try {
 			await producer.send({
 				topic: topic,

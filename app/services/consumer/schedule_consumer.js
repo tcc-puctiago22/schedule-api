@@ -10,18 +10,21 @@ const Schedule = db.schedule;
 
 const {
   KAFKA_TOPIC_NOTIFICATION,
-  KAFKA_TOPIC_NOTIFICATION_KEY_EMAIL
+  KAFKA_TOPIC_NOTIFICATION_KEY_EMAIL,
+  URL_CUSTOMER
 } = process.env;
+
+console.log(`env URL_CUSTOMER ${URL_CUSTOMER}`)
 
 async function consumePostShcedule(request) {
 
-  console.log(` ** init consumePostShcedule **`)
+  console.log(` ** init consumePostShcedule ** ${request.value}`)
 
   request = JSON.parse(request.value);
 
   let associeate = await checkCallApi(returnOptions(`/customers/v1/associetes/${request.associeateUuid}`));
   let provider = await checkCallApi(returnOptions(`/customers/v1/providers/${request.providerUuid}`));
-  let partner = await checkCallApi(returnOptions(`/customers/v1/partner/${request.partnerUuid}`));
+  let partner = await checkCallApi(returnOptions(`/customers/v1/partners/${request.partnerUuid}`));
 
   let messageAssociate = getMessageAssociate(request, associeate, provider, partner)
   await publishNotification(messageAssociate);
@@ -77,7 +80,7 @@ async function checkCallApi(path) {
   let retorno = await callApi(path);
 
   if (retorno.statusCode != 200) {
-    console.log(retorno)
+   
     throw Error(`dados não encontrato ${path}`)
   }
 
@@ -88,7 +91,7 @@ async function checkCallApi(path) {
 
 function returnOptions(path) {
   return {
-    hostname: 'localhost',
+    hostname: URL_CUSTOMER,
     port: 8080,
     path: path,
     method: 'GET',

@@ -4,10 +4,13 @@ const {consumePostShcedule} = require('../services/consumer/schedule_consumer')
 
 const consumer = kafka.consumer({groupId:KAFKA_CLIENTID})
 
-const consumerSchedule = async () => {
-    console.log('***consumerSchedule****')
-    await consumer.connect()
-	await consumer.subscribe({ topic: KAFKA_TOPIC_SCHEDULE, fromBeginning: true })
+ const consumerSchedule = async () => {
+
+  console.log(`*** consumerSchedule **** ${KAFKA_CLIENTID}`)
+  
+  consumer.connect()
+  consumer.subscribe({ topic: KAFKA_TOPIC_SCHEDULE, fromBeginning: true })
+
 	await consumer.run({
 
         eachMessage: async ({ topic, partition, message, heartbeat, pause }) => {
@@ -17,7 +20,7 @@ const consumerSchedule = async () => {
                 value: message.value.toString(),
                 headers: message.headers.toString(),
             })
-            
+            console.log('*** consumerSchedule  consumePostShcedule ****')
             await consumePostShcedule(message)
         },
 	})

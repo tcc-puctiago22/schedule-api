@@ -25,7 +25,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const db = require("./models");
-console.log(db.url);
 
 db.mongoose
   .connect(db.url, {
